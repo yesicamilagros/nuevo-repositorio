@@ -1,0 +1,42 @@
+name: Run Colab Notebook
+
+on:
+  schedule:
+    # Ejecutar todos los días a las 12:00 UTC
+    - cron: "*/15 * * * *"
+  workflow_dispatch:  # Permite ejecutar manualmente
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Paso 1: Clona el repositorio
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Paso 2: Configura Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+
+    # Paso 3: Instala dependencias
+    - name: Install dependencies
+      run: |
+        pip install notebook nbconvert papermill
+
+    # Paso 4: Ejecuta el notebook
+    - name: Run notebook
+      run: |
+        papermill powerbi_colab.ipynb output.ipynb
+
+    # Paso 5: Guarda el notebook actualizado
+    - name: Commit and push updated notebook
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add output.ipynb
+        git commit -m "Updated notebook output [skip ci]"
+        git push
+
