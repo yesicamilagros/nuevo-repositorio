@@ -39,8 +39,14 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
+
+          # Traer cambios remotos
           git fetch origin
           git pull origin main --rebase || git rebase --abort
+
+          # Añadir cambios y hacer commit
           git add output.ipynb
           git commit -m "Updated notebook output [skip ci]" || echo "No changes to commit"
-          git push origin main
+
+          # Subir cambios (con opción force para evitar errores)
+          git push origin main || git push origin main --force
