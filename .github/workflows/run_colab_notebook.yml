@@ -39,6 +39,7 @@ jobs:
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
+        git pull origin main --rebase
         git add output.ipynb
         git commit -m "Updated notebook output [skip ci]"
         git push
