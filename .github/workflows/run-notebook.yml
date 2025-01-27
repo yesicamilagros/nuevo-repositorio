@@ -42,12 +42,12 @@ jobs:
           # Actualiza el repositorio local con los cambios remotos
           git fetch origin
 
-          # Resetear la rama local para alinearse con la remota
-          git reset --hard origin/main
+          # Sincroniza con la rama remota (evitar conflictos)
+          git pull origin main --rebase
 
           # Añadir cambios y realizar commit
           git add output.ipynb
           git commit -m "Updated notebook output [skip ci]" || echo "No changes to commit"
 
-          # Pushing with GitHub token to ensure authentication (force push if necessary)
-          git push https://github.com/${{ secrets.GITHUB_TOKEN }}@github.com/yesicamilagros/nuevo-repositorio.git main --force
+          # Realiza el push forzando la actualización si es necesario
+          git push origin main --force-with-lease
