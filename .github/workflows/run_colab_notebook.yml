@@ -5,9 +5,8 @@ permissions:
 
 on:
   schedule:
-    # Ejecutar todos los días a las 12:00 UTC
     - cron: "*/15 * * * *"
-  workflow_dispatch:  # Permite ejecutar manualmente
+  workflow_dispatch:
 
 jobs:
   run-notebook:
@@ -40,13 +39,13 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
 
-          # Traer cambios remotos e intentar rebase
+          # Actualiza el repositorio local con los cambios remotos
           git fetch origin
           git pull origin main --rebase || git rebase --abort
 
-          # Añadir cambios y hacer commit
+          # Añade cambios y realiza commit
           git add output.ipynb
           git commit -m "Updated notebook output [skip ci]" || echo "No changes to commit"
 
-          # Subir cambios, usando --force solo si es necesario
-          git push origin main || git push origin main --force
+          # Realiza el push, forzando solo si es absolutamente necesario
+          git push origin main || (git pull origin main --rebase && git push origin main)
