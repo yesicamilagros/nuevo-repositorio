@@ -29,7 +29,7 @@ jobs:
     # Paso 4: Ejecuta el notebook
     - name: Run notebook
       run: |
-        papermill powerbi_colab.ipynb output.ipynb
+        papermill POWER_BI.ipynb output.ipynb
 
     # Paso 5: Guarda el notebook actualizado
     - name: Commit and push updated notebook
