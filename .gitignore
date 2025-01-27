@@ -1,0 +1,8 @@
+__pycache__/
+LICENSE/
+README.md/
+app.py/
+powerbi_colab.ipynb/
+requirements.txt/
+services.py/
+sett.py
