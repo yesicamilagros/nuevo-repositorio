@@ -14,33 +14,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Paso 1: Clona el repositorio
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      # Paso 1: Clona el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # Paso 2: Configura Python
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.9"
+      # Paso 2: Configura Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
 
-    # Paso 3: Instala dependencias
-    - name: Install dependencies
-      run: |
-        pip install notebook nbconvert papermill
+      # Paso 3: Instala dependencias
+      - name: Install dependencies
+        run: |
+          pip install notebook nbconvert papermill
 
-    # Paso 4: Ejecuta el notebook
-    - name: Run notebook
-      run: |
-        papermill POWER_BI.ipynb output.ipynb
+      # Paso 4: Ejecuta el notebook
+      - name: Run notebook
+        run: |
+          papermill POWER_BI.ipynb output.ipynb
 
-    # Paso 5: Guarda el notebook actualizado
-    - name: Commit and push updated notebook
-      run: |
-        git config --local user.email "actions@github.com"
-        git config --local user.name "GitHub Actions"
-        git pull origin main --rebase
-        git add output.ipynb
-        git commit -m "Updated notebook output [skip ci]"
-        git push
-
+      # Paso 5: Guarda el notebook actualizado
+      - name: Commit and push updated notebook
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git fetch origin
+          git pull origin main --rebase || git rebase --abort
+          git add output.ipynb
+          git commit -m "Updated notebook output [skip ci]" || echo "No changes to commit"
+          git push origin main
