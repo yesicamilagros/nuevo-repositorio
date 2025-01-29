@@ -43,6 +43,9 @@ jobs:
           git fetch origin
 
           # Sincroniza con la rama remota (evitar conflictos)
+          git add .
+          git commit -m "Guardando cambios antes de hacer rebase"
+          
           git pull origin main --rebase
 
           # Añadir cambios y realizar commit
